@@ -1,0 +1,270 @@
+/* 🔹 Main Toolbar */
+.main-toolbar {
+    width: 100%;
+    height: 64px;
+    background: #1e3a8a; /* Deep Blue */
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* 🔹 Toolbar Title */
+.toolbar-title {
+    flex-grow: 1;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* 🔹 Right-side Toolbar Icons */
+.toolbar-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.toolbar-icons button {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.toolbar-icons mat-icon {
+    font-size: 24px;
+    color: white;
+    transition: color 0.3s ease-in-out;
+}
+
+.toolbar-icons mat-icon:hover {
+    color: #b3c7ff; /* Lighter blue on hover */
+}
+
+/* 🔹 User Profile Section */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+.user-profile:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.user-profile img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-profile span {
+    font-size: 16px;
+    color: white;
+}
+
+/* 🔹 Sidenav Container */
+.sidenav-container {
+    display: flex;
+    margin-top: 64px; /* Push below toolbar */
+    height: calc(100vh - 64px);
+}
+
+/* 🔹 Sidenav Styling */
+mat-sidenav {
+    width: 240px;
+    background: #f4f4f4;
+    border-right: 1px solid #ddd;
+    padding-top: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures logout is at the bottom */
+    gap: 50px;
+    }
+
+/* 🔹 Sidebar Navigation */
+mat-nav-list {
+    flex-grow: 1;
+}
+
+/* 🔹 Sidebar Navigation - Fixing Icon Alignment */
+mat-nav-list a.mat-list-item {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 12px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    
+  
+}
+
+/* Ensure icons are inline and properly sized */
+mat-nav-list a.mat-list-item mat-icon.nav-icon {
+    font-size: 22px; /* Bigger size for visibility */
+    color: #333;
+    min-width: 30px; /* Ensures all icons align properly */
+    text-align: center;
+    margin-top: 25px;
+}
+
+/* Sidebar text spacing */
+mat-nav-list a.mat-list-item span {
+    margin-left: 12px;
+}
+
+/* Hover Effect */
+mat-nav-list a.mat-list-item:hover {
+    background: rgba(30, 58, 138, 0.1);
+    color: #1e3a8a;
+}
+
+mat-nav-list a.mat-list-item:hover mat-icon {
+    color: #1e3a8a;
+}
+
+/* 🔹 Logout Button Styling */
+.logout-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+/* 🔹 Styling the Logout Button */
+.logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: red !important; /* Red text */
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    background: transparent;
+    padding: 8px 24px;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+/* 🔹 Logout Icon */
+.logout-icon {
+    font-size: 22px;
+    color: red;
+}
+
+/* 🔹 Hover Effect */
+.logout-button:hover {
+    color: darkred !important; /* Darker red on hover */
+    background: rgba(255, 0, 0, 0.1); /* Light red background on hover */
+    border-radius: 5px;
+}
+
+
+
+/* 🔹 Menu Button (Hamburger Icon) */
+.menu-button {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background 0.3s ease-in-out;
+}
+
+.menu-button mat-icon {
+    font-size: 28px;
+    color: white;
+    transition: color 0.3s ease-in-out;
+}
+
+.menu-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.menu-button mat-icon:hover {
+    color: #b3c7ff;
+}
+
+/* 🔹 Active/Clicked Effect */
+.menu-button:active {
+    transform: scale(0.95);
+}
+
+//icons
+mat-nav-list {
+    padding: 10px;
+}
+
+mat-list-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;  // Ensures space between the icon and text
+}
+
+.nav-icon {
+    font-size: 18px;
+    margin-right: 10px;
+    color: blue; // Blue color for better visibility
+    font-weight: bold;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+a:hover {
+    background: rgba(0, 123, 255, 0.1);
+    color: #0056b3;
+}
+
+/* Style for the sidenav icons */
+.nav-item {
+    display: flex;
+    align-items: center; /* Aligns icon and text vertically */
+    padding: 8px 0; /* Adds some padding between items */
+  }
+  
+  .nav-icon {
+    font-size: 20px; /* Sets a standard size for icons */
+    font-weight: bold; /* Makes the icon bold */
+    margin-right: 10px; /* Adds a gap between the icon and text */
+  }
+  
+  .nav-item span {
+    font-weight: 500; /* Makes the text semi-bold */
+  }
+  
+  /* Optional: Adding hover effects */
+  .nav-item:hover {
+    background-color: #f1f1f1; /* Light gray background on hover */
+    border-radius: 5px; /* Rounds the corners slightly */
+  }
+  

@@ -1,0 +1,40 @@
+@use "@angular/material" as mat;
+
+@include mat.core();
+
+// Define the primary, accent, and warn palettes using the new M3 API
+$my-primary: mat.define-palette(mat.$red-palette, 600);
+$my-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
+$my-warn: mat.define-palette(mat.$green-palette, A200, A100, A400);
+
+// Define a Material 3 light theme
+$my-theme: mat.define-light-theme((
+  color: (
+    primary: $my-primary,
+    accent: $my-accent,
+    warn: $my-warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+// Apply the theme to all Material components
+@include mat.all-component-themes($my-theme);
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html, body {
+    background-color: #f4f6f9 !important; /* Set background */
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100%; /* Ensure it takes full height */
+    width: 100%;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}

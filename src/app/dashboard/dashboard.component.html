@@ -1,0 +1,43 @@
+<mat-toolbar class="main-toolbar">
+    <!-- Menu button for sidenav -->
+    <button mat-icon-button class="menu-button" (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <!-- Dashboard Title -->
+    <span class="toolbar-title">Customer Management</span>
+</mat-toolbar>
+
+<!-- Main container -->
+<div class="sidenav-container">
+    <mat-sidenav-container>
+        <!-- Sidenav -->
+        <mat-sidenav #sidenav mode="side" opened>
+            <mat-nav-list>
+                <a mat-list-item routerLink="dashboard">🏠 Dashboard</a>
+                <a mat-list-item routerLink="create-customer">➕ Create Customer</a>
+                <a mat-list-item routerLink="customers">👥 Customer List</a>
+                <a mat-list-item routerLink="create-account">➕ Create Account</a>
+                <a mat-list-item routerLink="accounts">💼 Account List</a>
+                <a mat-list-item routerLink="map-atm-card">🔗 Map ATM Card</a>
+                <a mat-list-item routerLink="mapped-cards">💳 Mapped Cards</a>
+                <a mat-list-item routerLink="atm-card-transaction-form">💵 Transaction Form</a>
+                <a mat-list-item routerLink="atm-transactions">📄 Transaction List</a>
+
+            </mat-nav-list>
+
+            <!-- Logout Button 
+            <div class="logout-container">
+                <button class="logout-button" (click)="logout()"> 
+                    <mat-icon class="logout-icon">logout</mat-icon>
+                    Log out
+                </button>
+            </div> -->
+        </mat-sidenav>
+
+        <!-- Main Content -->
+        <mat-sidenav-content class="content">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
