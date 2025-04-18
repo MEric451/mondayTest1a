@@ -1,0 +1,15 @@
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+  }
+  
+  mat-icon-button {
+    transition: transform 0.2s ease;
+  }
+  
+  mat-icon-button:hover {
+    transform: scale(1.1);
+  }
+  

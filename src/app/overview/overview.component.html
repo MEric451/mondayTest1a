@@ -1,0 +1,88 @@
+<!-- dashboard.component.html -->
+<div class="overview-container">
+
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+      <h1>Welcome to Bank Admin Portal</h1>
+      <p>Manage customers, accounts, ATM cards, and transactions all in one place.</p>
+      <button mat-raised-button color="warning" routerLink="/dashboard/create-customer">
+        Get Started
+      </button>
+    </div>
+  
+    <!-- Row 1 -->
+    <div class="overview-row">
+      <!-- Customers Card -->
+      <mat-card class="overview-card blue">
+        <div class="accent-bar"></div>
+        <div class="card-content">
+          <mat-icon class="icon">people_outline</mat-icon>
+          <div>
+            <div class="label">Customers</div>
+            <div class="stat">{{ totalCustomers }}</div>
+          </div>
+        </div>
+      </mat-card>
+      <!-- Accounts Card -->
+      <mat-card class="overview-card green">
+        <div class="accent-bar"></div>
+        <div class="card-content">
+          <mat-icon class="icon">account_balance</mat-icon>
+          <div>
+            <div class="label">Accounts</div>
+            <div class="stat">{{ totalAccounts }}</div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  
+    <!-- Row 2 -->
+    <div class="overview-row">
+      <!-- ATM Cards Card -->
+      <mat-card class="overview-card purple">
+        <div class="accent-bar"></div>
+        <div class="card-content">
+          <mat-icon class="icon">credit_card</mat-icon>
+          <div>
+            <div class="label">ATM Cards</div>
+            <div class="stat">{{ totalCards }}</div>
+          </div>
+        </div>
+      </mat-card>
+      <!-- Transactions Card -->
+      <mat-card class="overview-card red">
+        <div class="accent-bar"></div>
+        <div class="card-content">
+          <mat-icon class="icon">swap_horiz</mat-icon>
+          <div>
+            <div class="label">Transactions</div>
+            <div class="stat">{{ totalTransactions }}</div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  
+    <!-- Quick Links Panel -->
+    <div class="quick-links">
+      <h2>Quick Actions</h2>
+      <div class="links-grid">
+        <button mat-stroked-button color="primary" routerLink="/dashboard/create-customer">
+          <mat-icon>person_add</mat-icon>
+          New Customer
+        </button>
+        <button mat-stroked-button color="primary" routerLink="/dashboard/create-account">
+          <mat-icon>add_card</mat-icon>
+          New Account
+        </button>
+        <button mat-stroked-button color="primary" routerLink="/dashboard/map-atm-card">
+          <mat-icon>credit_card</mat-icon>
+          Map ATM Card
+        </button>
+        <button mat-stroked-button color="primary" routerLink="/dashboard/transactions">
+          <mat-icon>receipt_long</mat-icon>
+          New Transaction
+        </button>
+      </div>
+    </div>
+  </div>
+  

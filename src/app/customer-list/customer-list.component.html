@@ -1,28 +1,42 @@
-<mat-card class="customer-list-card">
-  <h2>Customer Management</h2>
-  
-  <app-customer-list
-    [customer]="selectedCustomer"
-    (formSubmitted)="onFormSubmit($event)"
-  ></app-customer-list>
+<div class="container">
+  <h2 class="text-xl font-semibold mb-4">Customer List</h2>
 
-  <mat-divider></mat-divider>
+  <table mat-table [dataSource]="customers" class="mat-elevation-z8 w-full">
+    
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let customer"> {{ customer.fullName }} </td>
+    </ng-container>
 
-  <mat-list>
-    <mat-list-item *ngFor="let customer of customers">
-      <div class="customer-info">
-        <span><strong>{{ customer.name }}</strong></span>
-        <span>{{ customer.email }}</span>
-        <span>{{ customer.phone }}</span>
-      </div>
-      <div class="actions">
-        <button mat-icon-button color="primary" (click)="editCustomer(customer)">
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let customer"> {{ customer.email }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef> Phone </th>
+      <td mat-cell *matCellDef="let customer"> {{ customer.phone }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let customer" class="actions">
+        <button mat-icon-button color="primary" (click)="viewCustomer(customer)" matTooltip="View Customer">
+          <mat-icon>visibility</mat-icon>
+        </button>
+      
+        <button mat-icon-button color="accent" (click)="editCustomer(customer)" matTooltip="Edit Customer">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="confirmDelete(customer)">
+      
+        <button mat-icon-button color="warn" (click)="deleteCustomer(customer.id)" matTooltip="Delete Customer">
           <mat-icon>delete</mat-icon>
         </button>
-      </div>
-    </mat-list-item>
-  </mat-list>
-</mat-card>
+      </td>
+      
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

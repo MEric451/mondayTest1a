@@ -1,17 +1,54 @@
-.customer-list-card {
-    margin: 16px;
-    padding: 16px;
-  }
-  
-  .customer-info {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-  
-  .actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
+.container {
+  padding: 1.5rem;
+  width: 1050px;
+  box-sizing: border-box;
+  margin: auto;
+  margin-left: 50px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+mat-header-row {
+  background-color: #f1f5f9; /* light gray background */
+}
+
+mat-header-cell {
+  font-weight: bold;
+  font-size: 15px;
+  color: #1f2937; /* slate-800 */
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb; /* gray-200 */
+  text-align: left;
+}
+
+mat-row {
+  transition: background-color 0.2s;
+}
+
+mat-row:hover {
+  background-color: #f9fafb; /* gray-50 on hover */
+}
+
+mat-cell {
+  padding: 16px;
+  font-size: 14px;
+  color: #374151; /* gray-700 */
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: middle;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+button[mat-icon-button] {
+  padding: 6px;
+}

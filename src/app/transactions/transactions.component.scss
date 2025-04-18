@@ -1,0 +1,54 @@
+.container {
+   width: 1050px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  .transaction-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+  
+      button {
+        flex: 1; // makes each button take 50%
+      }
+    }
+  }
+  
+  
+  
+  .full-width-table {
+    width: 100%;
+  }
+  
+  .my-4 {
+    margin: 24px 0;
+  }
+  
+
+  .transaction-history {
+    margin-top: 60px;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap; // Optional: Makes it responsive
+  }
+  
+  .form-field {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .button-row {
+    margin-top: 16px;
+    display: flex;
+    gap: 12px;
+  }
+  

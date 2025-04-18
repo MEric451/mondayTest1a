@@ -1,53 +1,65 @@
 import { Injectable } from '@angular/core';
 import { Account } from './accountmodel/accountmodel.module';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-  private storageKey = 'accounts';
+  private accountsSubject = new BehaviorSubject<Account[]>(this.loadAccountsFromLocalStorage());
+  accounts$ = this.accountsSubject.asObservable();
 
   constructor() {}
 
-  // Fetch all accounts from LocalStorage
-  getAllAccounts(): Account[] {
-    const data = localStorage.getItem(this.storageKey);
-    return data ? JSON.parse(data) : [];
+  private loadAccountsFromLocalStorage(): Account[] {
+    const storedAccounts = localStorage.getItem('accounts');
+    return storedAccounts ? JSON.parse(storedAccounts) : [];
   }
 
-  // Get account by its ID
-  getAccountById(id: number): Account | undefined {
-    const accounts = this.getAllAccounts();
-    return accounts.find(acc => acc.id === id);
+  private saveAccountsToLocalStorage(accounts: Account[]): void {
+    localStorage.setItem('accounts', JSON.stringify(accounts));
+    this.accountsSubject.next(accounts);  // Update the observable with the new account list
   }
 
-  // Fetch accounts by customerId
-  getAccountsByCustomer(customerId: number): Account[] {
-    return this.getAllAccounts().filter(acc => acc.customerId === customerId);
-  }
-
-  // Add a new account
-  addAccount(account: Account): void {
-    const accounts = this.getAllAccounts();
-    account.id = Date.now(); // simple unique ID
+  // Create Account
+  createAccount(account: Account): void {
+    const accounts = this.loadAccountsFromLocalStorage();
+  
+    // Fetch the customer data to get the full name
+    const customer = JSON.parse(localStorage.getItem('customers') || '[]')
+      .find((cust: any) => cust.customerId === account.customerId);  // Correctly compare with customerId
+  console.log(customer);
+    // Set customer name if available
+    account.customerName = customer ? customer.fullName : 'Unknown Customer';
+  
+    account.id = (accounts.length + 1).toString();  // Assign a new id
     accounts.push(account);
-    this.save(accounts);
+    this.saveAccountsToLocalStorage(accounts);
   }
 
-  // Update an existing account
-  updateAccount(account: Account): void {
-    const accounts = this.getAllAccounts().map(acc => acc.id === account.id ? account : acc);
-    this.save(accounts);
+  // Get all Accounts (will return the observable)
+  getAccounts(): Account[] {
+    return this.loadAccountsFromLocalStorage();
   }
 
-  // Delete an account
-  deleteAccount(id: number): void {
-    const accounts = this.getAllAccounts().filter(acc => acc.id !== id);
-    this.save(accounts);
+  // Update Account
+  updateAccount(updatedAccount: Account): void {
+    const accounts = this.loadAccountsFromLocalStorage();
+    const index = accounts.findIndex((acc) => acc.id === updatedAccount.id);
+    if (index !== -1) {
+      const customer = JSON.parse(localStorage.getItem('customers') || '[]')
+        .find((cust: any) => cust.id === updatedAccount.customerId);
+      updatedAccount.customerName = customer ? customer.fullName : '';  // Update customer name
+      
+      accounts[index] = updatedAccount;
+      this.saveAccountsToLocalStorage(accounts);
+    }
   }
 
-  // Save accounts to LocalStorage
-  private save(accounts: Account[]): void {
-    localStorage.setItem(this.storageKey, JSON.stringify(accounts));
+  // Delete Account
+  deleteAccount(accountId: string): void {
+    const accounts = this.loadAccountsFromLocalStorage();
+    const updatedAccounts = accounts.filter((acc) => acc.id !== accountId);
+    this.saveAccountsToLocalStorage(updatedAccounts);
   }
 }

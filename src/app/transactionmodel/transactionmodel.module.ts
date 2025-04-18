@@ -1,7 +1,9 @@
 export interface Transaction {
   id: string;
-  atmCardId: string;
+  atmCardId: number;
+  accountId: string;
+  type: 'Withdrawal' | 'Deposit';
   amount: number;
-  type: 'deposit' | 'withdrawal'; // Or any other types you need
-  date: string;
+  date: string; // e.g., '2025-04-13'
+  status: 'Completed' | 'Reversed';
 }

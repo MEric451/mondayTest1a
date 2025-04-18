@@ -1,23 +1,47 @@
-<mat-card>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <mat-form-field class="full-width">
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="name" />
-      </mat-form-field>
+
+<h2 class="title">Create New Customer</h2>
+<form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="p-4 w-full max-w-lg mx-auto">
   
-      <mat-form-field class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput type="email" formControlName="email" />
-      </mat-form-field>
+  <mat-form-field class="w-full" appearance="outline">
+    <mat-label>Full Name</mat-label>
+    <input matInput formControlName="fullName" required>
+  </mat-form-field>
+
+  <mat-form-field class="w-full" appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" formControlName="email" required>
+  </mat-form-field>
+
+  <mat-form-field class="w-full" appearance="outline">
+    <mat-label>Phone</mat-label>
+    <input matInput type="tel" formControlName="phone" required>
+  </mat-form-field>
+
+  <mat-form-field class="w-full" appearance="outline">
+    <mat-label>Address</mat-label>
+    <textarea matInput formControlName="address" required></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="w-full" appearance="outline">
+    <mat-label>National ID</mat-label>
+    <input matInput formControlName="nationalId" required>
+  </mat-form-field>
+
+  <mat-form-field class="w-full" appearance="outline">
+    <mat-label>Date of Birth</mat-label>
+    <input matInput type="date" formControlName="dateOfBirth" required>
+  </mat-form-field>
+
+ <!-- Button container using flex -->
+ <div class="button-container">
+  <button mat-raised-button color="accent" type="button">
+    Cancel
+  </button>
+
+  <button mat-raised-button class="green-button" type="submit" [disabled]="customerForm.invalid">
+    Submit
+  </button>
   
-      <mat-form-field class="full-width">
-        <mat-label>Phone</mat-label>
-        <input matInput formControlName="phone" />
-      </mat-form-field>
-  
-      <button mat-raised-button color="primary" type="submit">
-        {{ customer ? 'Update' : 'Create' }} Customer
-      </button>
-    </form>
-  </mat-card>
-  
+</div>
+
+</form>

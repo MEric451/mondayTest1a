@@ -1,8 +1,8 @@
 export interface Account {
-  id: number;
-  customerId: number;
-  cardNumber: string;
-  type: string; // e.g. 'Savings', 'Current'
+  id: string;
+  customerId: string;
+  customerName: string;  // Add customerName to store the name
+  accountNumber: string;
+  type: string;
   balance: number;
 }
-

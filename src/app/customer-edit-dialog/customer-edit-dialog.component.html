@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Edit Customer</h2>
+<mat-dialog-content>
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="w-full">
+      <input matInput placeholder="Full Name" formControlName="fullName">
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <input matInput placeholder="Email" formControlName="email">
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <input matInput placeholder="Phone" formControlName="phone">
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <input matInput placeholder="Address" formControlName="address">
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <input matInput placeholder="National ID" formControlName="nationalId">
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <input matInput placeholder="Date of Birth" formControlName="dateOfBirth" type="date">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-flat-button color="primary" [disabled]="editForm.invalid" (click)="onSubmit()">Update</button>
+</mat-dialog-actions>

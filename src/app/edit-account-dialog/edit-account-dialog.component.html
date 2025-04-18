@@ -1,0 +1,21 @@
+<mat-card>
+    <h2>Edit Account</h2>
+  
+    <form [formGroup]="accountForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Account Type</mat-label>
+        <input matInput formControlName="type" placeholder="e.g. Savings or Current" />
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Balance</mat-label>
+        <input matInput formControlName="balance" type="number" />
+      </mat-form-field>
+  
+      <div class="button-container">
+        <button mat-raised-button color="primary" (click)="onSave()" [disabled]="accountForm.invalid">Save</button>
+        <button mat-raised-button color="warn" (click)="onClose()">Cancel</button>
+      </div>
+    </form>
+  </mat-card>
+  

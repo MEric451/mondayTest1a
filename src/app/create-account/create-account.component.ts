@@ -1,9 +1,13 @@
-// create-account.component.ts
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+
+import { AccountService } from '../account.service';
 import { CustomerService } from '../customer.service';
 import { Account } from '../accountmodel/accountmodel.module';
+import { ViewAccountDialogComponent } from '../view-account-dialog/view-account-dialog.component';
+import { EditAccountDialogComponent } from '../edit-account-dialog/edit-account-dialog.component';
 
 @Component({
   selector: 'app-create-account',
@@ -11,41 +15,116 @@ import { Account } from '../accountmodel/accountmodel.module';
   styleUrls: ['./create-account.component.scss']
 })
 export class CreateAccountComponent implements OnInit {
-  @Input() account: Account | null = null;
-  @Output() formSubmitted = new EventEmitter<Account>();
+  accountForm: FormGroup;
+  customerIds: { id: string; name: string }[] = [];
+  account: Account | null = null;
+  accountsList: Account[] = [];
+  displayedColumns: string[] = ['accountNumber', 'customerId', 'type', 'balance', 'actions'];
+  selectedCustomerId = '';
 
-  accountForm!: FormGroup;
-  customerIds: number[] = [];
 
   constructor(
     private fb: FormBuilder,
-    private toastr: ToastrService,
-    private customerService: CustomerService
-  ) {}
+    private accountService: AccountService,
+    private customerService: CustomerService,
+    private dialog: MatDialog,
+    private toastr: ToastrService
+  ) {
+    this.accountForm = this.fb.group({
+      customerId: ['', Validators.required],
+      type: ['', Validators.required],
+      balance: [0, [Validators.required, Validators.min(0)]]
+    });
+  }
 
   ngOnInit(): void {
-    this.customerIds = this.customerService.getCustomers().map(c => c.id);
-    this.accountForm = this.fb.group({
-      id: [null],
-      customerId: [null, Validators.required],
-      type: ['', Validators.required],
-      balance: [0, [Validators.required, Validators.min(0)]],
-    });
+    this.loadCustomerIds();
+    this.loadAccountsData();
+  }
 
-    if (this.account) {
-      this.accountForm.patchValue(this.account);
-    }
+  loadCustomerIds(): void {
+    const customers = this.customerService.getCustomers();
+    this.customerIds = customers.map(c => ({
+      id: c.id.toString(),
+      name: `${c.fullName} (${c.id})`
+    }));
+  }
+
+  loadAccountsData(): void {
+    const rawAccounts = this.accountService.getAccounts();
+    const customers = this.customerService.getCustomers();
+
+    this.accountsList = rawAccounts.map(acc => {
+      const cust = customers.find(c => c.id.toString() === acc.customerId);
+      return {
+        ...acc,
+        customerName: cust ? cust.fullName : 'Unknown Customer'
+      };
+    });
+  }
+
+  generateAccountNumber(): string {
+    return 'ACC-' + Math.floor(Math.random() * 1000000);
+  }
+
+  generateUniqueId(): string {
+    const accounts = JSON.parse(localStorage.getItem('accounts') || '[]');
+    return (accounts.length + 1).toString();
   }
 
   onSubmit(): void {
-    if (this.accountForm.invalid) return;
+    if (this.accountForm.valid) {
+      const accountData: Account = {
+        ...this.accountForm.value,
+        accountNumber: this.generateAccountNumber(),
+        id: this.generateUniqueId()
+      };
+      this.createAccount(accountData);
+    }
+  }
 
-    const account: Account = this.accountForm.value;
-    this.formSubmitted.emit(account);
+  createAccount(accountData: Account): void {
+    this.accountService.createAccount(accountData);
+    this.loadAccountsData();
+    this.toastr.success('Account created successfully!');
+    this.resetFormFields();
+  }
 
-    const message = account.id ? 'Account updated successfully' : 'Account created successfully';
-    this.toastr.success(message);
-
+  resetFormFields(){
     this.accountForm.reset();
+  }
+  onCustomerChange(event: any): void {
+    this.accountForm.get('customerId')?.setValue(event.value);
+  }
+
+  viewAccount(account: Account): void {
+    this.dialog.open(ViewAccountDialogComponent, {
+      width: '500px',
+      data: account
+    });
+  }
+
+  editAccount(account: Account): void {
+    const dialogRef = this.dialog.open(EditAccountDialogComponent, {
+      width: '500px',
+      data: account
+    });
+    dialogRef.afterClosed().subscribe((updatedAccount: Account) => {
+      if (updatedAccount) {
+        updatedAccount.accountNumber = account.accountNumber;
+
+        this.accountService.updateAccount(updatedAccount);
+        this.loadAccountsData();
+        this.toastr.success('Account updated successfully!');
+      }
+    });
+  }
+
+  deleteAccount(accountId: string): void {
+    if (confirm('Are you sure you want to delete this account?')) {
+      this.accountService.deleteAccount(accountId);
+      this.loadAccountsData();
+      this.toastr.success('Account deleted successfully!');
+    }
   }
 }

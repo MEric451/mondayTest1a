@@ -4,65 +4,58 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Customer } from '../customermodel/customermodel.module';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { Router } from '@angular/router';
+import { CustomerViewDialogComponent } from '../customer-view-dialog/customer-view-dialog.component';
+import { CustomerEditDialogComponent } from '../customer-edit-dialog/customer-edit-dialog.component';
 
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.scss']
 })
-export class CustomerListComponent {
-  @Input() customer: Customer | null = null;
-  @Output() formSubmitted = new EventEmitter<Customer>();
-  @Output() cancel = new EventEmitter<void>();
-  
+export class CustomerListComponent implements OnInit {
   customers: Customer[] = [];
-  selectedCustomer: Customer | null = null;
+  displayedColumns: string[] = ['name', 'email', 'phone', 'actions'];
 
   constructor(
-    private customerService: CustomerService,
     private dialog: MatDialog,
+    private router: Router,
     private toastr: ToastrService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.loadCustomers();
   }
 
   loadCustomers(): void {
-    this.customers = this.customerService.getCustomers();
+    this.customers = JSON.parse(localStorage.getItem('customers') || '[]');
+  }
+
+  viewCustomer(customer: Customer): void {
+    this.dialog.open(CustomerViewDialogComponent, {
+      width: '400px',
+      data: customer
+    });
   }
 
   editCustomer(customer: Customer): void {
-    this.selectedCustomer = { ...customer };
-  }
-
-  onFormSubmit(customer: Customer): void {
-    if (customer.id) {
-      this.customerService.updateCustomer(customer);
-    } else {
-      this.customerService.addCustomer(customer);
-    }
-    this.loadCustomers();
-    this.selectedCustomer = null;
-  }
-
-  confirmDelete(customer: Customer): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '300px',
-      data: {
-        title: 'Confirm Deletion',
-        message: `Are you sure you want to delete ${customer.name}?`,
-      },
+    const dialogRef = this.dialog.open(CustomerEditDialogComponent, {
+      width: '500px',
+      data: customer,
     });
-
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.customerService.deleteCustomer(customer.id);
-        this.toastr.success('Customer deleted successfully');
-        this.loadCustomers();
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadCustomers(); // reload list after edit
       }
     });
   }
 
-  cancelEdit(): void {
-    this.selectedCustomer = null;
+  deleteCustomer(id: number): void {
+    if (confirm('Are you sure you want to delete this customer?')) {
+      this.customers = this.customers.filter(c => c.id !== id);
+      localStorage.setItem('customers', JSON.stringify(this.customers));
+      this.toastr.success('Customer deleted!');
+    }
   }
 }

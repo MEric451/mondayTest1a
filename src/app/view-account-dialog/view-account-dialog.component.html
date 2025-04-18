@@ -1,0 +1,10 @@
+<mat-card>
+    <h2>Account Details</h2>
+  
+    <p><strong>Account ID:</strong> {{ data.id }}</p>
+    <p><strong>Account Type:</strong> {{ data.type }}</p>
+    <p><strong>Balance:</strong> {{ data.balance | currency }}</p>
+  
+    <button mat-button color="primary" (click)="onClose()">Close</button>
+  </mat-card>
+  
